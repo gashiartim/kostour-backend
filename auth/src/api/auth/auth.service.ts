@@ -60,6 +60,8 @@ export class AuthService {
 
   public async login(data: LoginUserDto): Promise<any> {
     // const user = await this.userRepository.findOne({ email: data.email });
+    console.log("hereArtim");
+
     const user = await this.userRepository
       .createQueryBuilder("user")
       .leftJoinAndSelect("user.role", "role")

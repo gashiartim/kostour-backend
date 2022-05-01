@@ -5,21 +5,29 @@ import {
   Inject,
   OnModuleInit,
   Post,
-} from '@nestjs/common';
-import { ClientKafka } from '@nestjs/microservices';
-import { UserService } from './user.service';
-import { RegisterUserDto } from '../../dtos/register-user-dto';
+} from "@nestjs/common";
+import { ClientKafka } from "@nestjs/microservices";
+import { UserService } from "./user.service";
+import { RegisterUserDto } from "../../dtos/register-user-dto";
+import { LogUserDto } from "../../dtos/log-user-dto";
 
-@Controller('api/users')
+@Controller("api/users")
 export class UserController implements OnModuleInit {
   constructor(
     private readonly userService: UserService,
-    @Inject('AUTH_SERVICE') private readonly authClient: ClientKafka,
+    @Inject("AUTH_SERVICE") private readonly authClient: ClientKafka
   ) {}
 
-  @Post()
+  @Post("register")
   registerUser(@Body() registerUserDto: RegisterUserDto) {
     return this.userService.registerUser(registerUserDto);
+  }
+
+  @Post("auth")
+  logUser(@Body() registerUserDto: LogUserDto) {
+    console.log("arrivedhere");
+
+    return this.userService.logUser(registerUserDto);
   }
 
   @Get()
@@ -28,7 +36,8 @@ export class UserController implements OnModuleInit {
   }
 
   async onModuleInit() {
-    this.authClient.subscribeToResponseOf('register');
+    this.authClient.subscribeToResponseOf("register");
+    this.authClient.subscribeToResponseOf("auth");
     await this.authClient.connect();
   }
 }

@@ -14,10 +14,12 @@ export class AuthController {
     return await this.authService.register(registerUserDto.value);
   }
 
-  // @Post("/login")
-  // async login(@Body() auth: LoginUserDto): Promise<any> {
-  //   return await this.authService.login(auth);
-  // }
+  @MessagePattern("auth")
+  async login(@Payload() logUserDto: any): Promise<any> {
+    console.log({ logUserDto });
+
+    return await this.authService.login(logUserDto.value);
+  }
 
   // @Post("/forgot-password")
   // async forgotPassword(@Body() data: ForgotPasswordDto, @Res() res) {
