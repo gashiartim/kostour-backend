@@ -4,6 +4,7 @@ import {
   Get,
   Inject,
   OnModuleInit,
+  Param,
   Post,
 } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
@@ -25,8 +26,6 @@ export class UserController implements OnModuleInit {
 
   @Post("auth")
   logUser(@Body() registerUserDto: LogUserDto) {
-    console.log("arrivedhere");
-
     return this.userService.logUser(registerUserDto);
   }
 
@@ -35,9 +34,16 @@ export class UserController implements OnModuleInit {
     return this.userService.getUsers();
   }
 
+  @Get(":id")
+  getUser(@Param("id") id: string) {
+    return this.userService.getUser(id);
+  }
+
   async onModuleInit() {
     this.authClient.subscribeToResponseOf("register");
     this.authClient.subscribeToResponseOf("auth");
+    this.authClient.subscribeToResponseOf("get_users");
+    this.authClient.subscribeToResponseOf("get_user");
     await this.authClient.connect();
   }
 }

@@ -15,10 +15,10 @@ export class AuthController {
   }
 
   @MessagePattern("auth")
-  async login(@Payload() logUserDto: any): Promise<any> {
+  login(@Payload() logUserDto: any): Promise<any> {
     console.log({ logUserDto });
 
-    return await this.authService.login(logUserDto.value);
+    return this.authService.login(logUserDto.value);
   }
 
   // @Post("/forgot-password")

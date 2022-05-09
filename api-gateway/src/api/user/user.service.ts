@@ -23,6 +23,15 @@ export class UserService {
   }
 
   getUsers() {
-    return this.authClient.send<string, any>("get_users", "");
+    return this.authClient.send("get_users", "");
+  }
+
+  getUser(id: string) {
+    console.log(
+      'this.authClient.send("get_user", { id })',
+      this.authClient.send("get_user", { id })
+    );
+
+    return this.authClient.send("get_user", { id });
   }
 }
