@@ -6,11 +6,13 @@ import {
   OnModuleInit,
   Param,
   Post,
+  UseGuards,
 } from "@nestjs/common";
 import { ClientKafka } from "@nestjs/microservices";
 import { UserService } from "./user.service";
 import { RegisterUserDto } from "../../dtos/register-user-dto";
 import { LogUserDto } from "../../dtos/log-user-dto";
+import { AuthGuard } from "../../common/guards/auth.guard";
 
 @Controller("api/users")
 export class UserController implements OnModuleInit {
@@ -25,7 +27,7 @@ export class UserController implements OnModuleInit {
   }
 
   @Post("auth")
-  logUser(@Body() registerUserDto: LogUserDto) {
+  logUser(@Body() registerUserDt do: LogUserDto) {
     return this.userService.logUser(registerUserDto);
   }
 

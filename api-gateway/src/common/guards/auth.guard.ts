@@ -7,9 +7,11 @@ import * as contextService from "request-context";
 export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
+    console.log("comming hereeee");
 
     if (request) {
       const user = await getUserFromRequest(request);
+      console.log("comming hereeee2", user);
       if (!user) {
         return false;
       }
@@ -28,6 +30,7 @@ export class AuthGuard implements CanActivate {
       }
     }
 
+    console.log("comming hereeee3");
     return true;
   }
 }
